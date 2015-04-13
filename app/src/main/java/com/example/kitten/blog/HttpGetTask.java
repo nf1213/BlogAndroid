@@ -1,7 +1,6 @@
 package com.example.kitten.blog;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -23,19 +22,20 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
     String response;
 
     public HttpGetTask(String responseString) {
-
+        response = responseString;
     }
 
     public HttpGetTask(String responseString, int id) {
+        response = responseString;
         postId = id;
     }
 
     @Override
     protected String doInBackground(String... urls) {
+        url = urls[0];
         try {
             return GET();
         } catch (Exception e) {
-            Log.e("HttpAsyncTask", e.getMessage(), e);
             e.printStackTrace();
         }
         return null;
@@ -43,7 +43,7 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result) {
-
+        response = result;
     }
 
     public String GET() {
@@ -69,7 +69,7 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
                 result = "Did not work!";
 
         } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+            e.printStackTrace();
         }
 
         return result;
