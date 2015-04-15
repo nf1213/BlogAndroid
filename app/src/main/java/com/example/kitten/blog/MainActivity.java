@@ -18,7 +18,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         tv = (TextView) findViewById(R.id.textView);
-        new HttpGetTask(jsonData).execute("http://nicolefelch.herokuapp.com/api/v1/posts");
+        HttpGetTask task = new HttpGetTask(tv);
+        task.execute("http://nicolefelch.herokuapp.com/api/v1/posts");
         tv.setText(jsonData);
     }
 

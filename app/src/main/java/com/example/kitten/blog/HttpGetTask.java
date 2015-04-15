@@ -1,6 +1,7 @@
 package com.example.kitten.blog;
 
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -19,14 +20,14 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
 
     String url;
     int postId = -1;
-    String response;
+    TextView tv;
 
-    public HttpGetTask(String responseString) {
-        response = responseString;
+    public HttpGetTask(TextView textView) {
+        tv = textView;
     }
 
-    public HttpGetTask(String responseString, int id) {
-        response = responseString;
+    public HttpGetTask(TextView textView, int id) {
+        tv = textView;
         postId = id;
     }
 
@@ -43,7 +44,7 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result) {
-        response = result;
+        tv.setText(result);
     }
 
     public String GET() {
