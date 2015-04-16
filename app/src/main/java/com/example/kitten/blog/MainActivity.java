@@ -4,20 +4,29 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    TextView tv;
+    private PostAdapter mPostAdapter;
+    ArrayList<Post> posts;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv = (TextView) findViewById(R.id.textView);
-        HttpGetTask task = new HttpGetTask(tv);
+        posts = new ArrayList<Post>();
+
+        mPostAdapter = new PostAdapter(this, R.layout.list_item_post, posts);
+        listView = (ListView) findViewById(R.id.posts_list_view);
+        listView.setAdapter(mPostAdapter);
+
+        HttpGetTask task = new HttpGetTask(mPostAdapter);
         task.execute("http://nicolefelch.herokuapp.com/api/v1/posts");
     }
 

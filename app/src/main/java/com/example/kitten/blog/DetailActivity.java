@@ -18,9 +18,8 @@ public class DetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        tv = (TextView) findViewById(R.id.textView);
-        HttpGetTask task = new HttpGetTask(tv, id);
-        task.execute("http://nicolefelch.herokuapp.com/api/v1/posts");
+        //HttpGetTask task = new HttpGetTask(tv, id);
+        //task.execute("http://nicolefelch.herokuapp.com/api/v1/posts");
     }
 
 

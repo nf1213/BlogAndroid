@@ -1,12 +1,14 @@
 package com.example.kitten.blog;
 
 import android.os.AsyncTask;
-import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,14 +22,14 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
 
     String url;
     int postId = -1;
-    TextView tv;
+    PostAdapter mPostAdapter;
 
-    public HttpGetTask(TextView textView) {
-        tv = textView;
+    public HttpGetTask(PostAdapter adapter) {
+        mPostAdapter = adapter;
     }
 
-    public HttpGetTask(TextView textView, int id) {
-        tv = textView;
+    public HttpGetTask(PostAdapter adapter, int id) {
+        mPostAdapter = adapter;
         postId = id;
     }
 
@@ -44,7 +46,10 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result) {
-        tv.setText(result);
+        if (result != null) {
+           mPostAdapter.clear();
+           parseJsonPosts(result);
+        }
     }
 
     public String GET() {
@@ -76,7 +81,7 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
         return result;
     }
 
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+    private String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
         String line = "";
         String result = "";
@@ -84,5 +89,26 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
             result += line;
         inputStream.close();
         return result;
+    }
+
+    private void parseJsonPosts(String json) {
+        try {
+            JSONObject postsJson = new JSONObject(json);
+            JSONArray postsArray = postsJson.getJSONArray("posts");
+            for (int i = 0; i < postsArray.length(); i++) {
+                JSONObject postItem = postsArray.getJSONObject(i);
+
+                int id = postItem.getInt("id");
+                String subject = postItem.getString("subject");
+                String content = postItem.getString("content");
+                String blogImageUrl = postItem.getJSONObject("blog_image").getJSONObject("blog_image").getString("url");
+                String instagramLink = postItem.getString("instagram_link");
+
+                Post post = new Post(id, subject, content, blogImageUrl, instagramLink);
+                mPostAdapter.add(post);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

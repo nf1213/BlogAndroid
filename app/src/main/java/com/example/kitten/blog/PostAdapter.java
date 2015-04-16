@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by kitten on 4/15/15.
  */
@@ -15,9 +17,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
     Context context;
     int layoutResourceId;
-    Post[] posts;
+    ArrayList<Post> posts;
 
-    public PostAdapter(Context context, int layoutResourceId, Post[] posts) {
+    public PostAdapter(Context context, int layoutResourceId, ArrayList<Post> posts) {
         super(context, layoutResourceId, posts);
         this.context = context;
         this.layoutResourceId = layoutResourceId;
@@ -36,7 +38,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
             subject = (TextView) row.findViewById(R.id.subjectTextView);
 
-            Post post = posts[position];
+            Post post = posts.get(position);
             subject.setText(post.subject);
         }
 
