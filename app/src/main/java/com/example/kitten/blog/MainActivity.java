@@ -10,7 +10,6 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity {
 
     TextView tv;
-    String jsonData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +19,6 @@ public class MainActivity extends ActionBarActivity {
         tv = (TextView) findViewById(R.id.textView);
         HttpGetTask task = new HttpGetTask(tv);
         task.execute("http://nicolefelch.herokuapp.com/api/v1/posts");
-        tv.setText(jsonData);
     }
 
 

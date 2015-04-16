@@ -4,14 +4,23 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class DetailActivity extends ActionBarActivity {
+    TextView tv;
+
+    //this will be sent from the previous intent
+    int id = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        tv = (TextView) findViewById(R.id.textView);
+        HttpGetTask task = new HttpGetTask(tv, id);
+        task.execute("http://nicolefelch.herokuapp.com/api/v1/posts");
     }
 
 
