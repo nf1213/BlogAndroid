@@ -21,16 +21,10 @@ import java.io.InputStreamReader;
 public class HttpGetTask extends AsyncTask<String, Void, String> {
 
     String url;
-    int postId = -1;
     PostAdapter mPostAdapter;
 
     public HttpGetTask(PostAdapter adapter) {
         mPostAdapter = adapter;
-    }
-
-    public HttpGetTask(PostAdapter adapter, int id) {
-        mPostAdapter = adapter;
-        postId = id;
     }
 
     @Override
@@ -56,9 +50,6 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
         InputStream inputStream = null;
         String result = "";
         try {
-            if(postId > 0) {
-                url = url + "/" + postId;
-            }
             // create HttpClient
             HttpClient httpclient = new DefaultHttpClient();
 

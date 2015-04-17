@@ -1,25 +1,34 @@
 package com.example.kitten.blog;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 
 public class DetailActivity extends ActionBarActivity {
-    TextView tv;
 
-    //this will be sent from the previous intent
-    int id = 5;
+    TextView subjectTextView;
+    TextView contentTextView;
+    Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        //HttpGetTask task = new HttpGetTask(tv, id);
-        //task.execute("http://nicolefelch.herokuapp.com/api/v1/posts");
+        subjectTextView = (TextView) findViewById(R.id.detail_subject);
+        contentTextView = (TextView) findViewById(R.id.detail_content);
+
+        Intent intent = getIntent();
+        if(intent != null && intent.hasExtra("post")) {
+            post = (Post) intent.getParcelableExtra("post");
+            subjectTextView.setText(post.subject);
+            contentTextView.setText(post.content);
+        }
+
     }
 
 

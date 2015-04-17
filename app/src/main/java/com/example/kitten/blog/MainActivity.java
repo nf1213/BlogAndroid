@@ -1,9 +1,12 @@
 package com.example.kitten.blog;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -28,6 +31,17 @@ public class MainActivity extends ActionBarActivity {
 
         HttpGetTask task = new HttpGetTask(mPostAdapter);
         task.execute("http://nicolefelch.herokuapp.com/api/v1/posts");
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Post post = mPostAdapter.getItem(i);
+                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                intent.putExtra("post", post);
+                startActivity(intent);
+            }
+        });
     }
 
 
